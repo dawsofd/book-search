@@ -24,17 +24,23 @@ const LoginForm = () => {
       event.preventDefault();
       event.stopPropagation();
     }
+    setValidated(true);
 
     try {
-      const response = await loginUser(userFormData);
+      if (form.checkValidity()) {
+        const response = await loginUser(userFormData);
+  
+        if (!response.ok) {
+          throw new Error('something went wrong!');
+        }
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
+        const { token, user } = await response.json();
+        console.log(user);
+        Auth.login(token);
+
+        setUserFormData({ email: '', password: '' });
+        setValidated(false);
       }
-
-      const { token, user } = await response.json();
-      console.log(user);
-      Auth.login(token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);
