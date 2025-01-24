@@ -7,7 +7,7 @@ const typeDefs = `
     bookCount: Int
     }
 
-  input CreateUserInput {
+  input addUserInput {
     username: String!
     email: String! 
     password: String! 
