@@ -32,11 +32,17 @@ const SignupForm = () => {
     }
 
     try {
-      const { data } = await addUser({
-        variables: { ...userFormData },
-      });
+      const response = await addUser({
+        variables: { ...userFormData }
+      })
 
-      Auth.login(data.addUser.token);
+      if (!response.data) {
+        throw new Error('Something went wrong!');
+      }
+
+      const token = response.data.addUser.token
+
+      Auth.login(token);
 
     } catch (err) {
       console.error(err);
