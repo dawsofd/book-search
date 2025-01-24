@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
 import { useMutation } from '@apollo/client';
@@ -33,7 +33,11 @@ const SignupForm = () => {
 
     try {
       const response = await addUser({
-        variables: { ...userFormData }
+        variables: {
+          "username" : userFormData.username,
+          "email": userFormData.email,
+          "password": userFormData.password
+        }
       })
 
       if (!response.data) {
