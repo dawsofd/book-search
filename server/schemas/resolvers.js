@@ -22,7 +22,7 @@ const resolvers = {
 
         login: async (parent, {email, password }) => {
 
-                const user = await User.findOne({ $or: [{ username }, { email }] });
+                const user = await User.findOne({ email });
 
                 if (!user) {
                     throw new Error("User not found");
