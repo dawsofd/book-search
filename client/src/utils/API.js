@@ -41,7 +41,7 @@ export const getMe = (token) => {
   };
   
   // remove saved book data for a logged in user
-  export const deleteBook = (bookId, token) => {
+  export const removeBook = (bookId, token) => {
     return fetch(`/api/users/books/${bookId}`, {
       method: 'DELETE',
       headers: {

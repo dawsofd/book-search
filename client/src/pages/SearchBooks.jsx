@@ -53,7 +53,7 @@ const SearchBooks = () => {
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
         title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
+        description: book.volumeInfo.description || ['No description to display'],
         image: book.volumeInfo.imageLinks?.thumbnail || '',
       }));
 
@@ -77,11 +77,28 @@ const SearchBooks = () => {
     }
 
     try {
+      // Fallback for missing description
+      const description = bookToSave.description || "No description available";
+
+      // Use the saveBook mutation here
       const { data } = await saveBook({
-        variables: { newBook: {...bookToSave} },
+        variables: {
+          bookInput: {
+            bookId: bookToSave.bookId,
+            authors: bookToSave.authors,
+            title: bookToSave.title,
+            description: description,
+            image: bookToSave.image,
+          },
+        },
       });
 
-      // if book successfully saves to user's account, save book id to state
+      // Check if the response is successful
+      if (!data.saveBook) {
+        throw new Error("something went wrong!");
+      }
+
+      // If book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
       console.error(err);
