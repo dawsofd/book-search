@@ -1,5 +1,6 @@
 const typeDefs = `
   type User {
+    _id: ID!
     username: String! 
     email: String! 
     password: String! 
@@ -32,7 +33,7 @@ const typeDefs = `
       user: User
     }
     
-    input SaveBookInput {
+    input InputBook {
       authors: [String]
       description: String
       title: String
@@ -48,7 +49,7 @@ const typeDefs = `
     type Mutation {
       login(email: String!, password: String!): Auth
       addUser(username: String!, email: String!, password: String!): Auth
-      saveBook(input: SaveBookInput!): User
+      saveBook(newBook: InputBook!): User
       removeBook(bookId: ID!): User
     }
 `;
